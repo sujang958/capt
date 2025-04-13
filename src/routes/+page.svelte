@@ -3,6 +3,8 @@
   import { invoke } from "@tauri-apps/api/core"
 
   import AudioTrack from "../components/AudioTrack.svelte"
+  import Button from "../components/ui/Button.svelte"
+  import { Plus } from "lucide-svelte"
 
   onMount(() => {
     const supportedConstraints =
@@ -28,6 +30,7 @@
         class="mt-2 flex h-full flex-col gap-y-4 rounded-lg bg-neutral-800 px-5 py-3"
       >
         <AudioTrack />
+        <Button class="py-1"><Plus class="size-4" /></Button>
       </div>
     </div>
     <aside class="flex h-full min-w-52 flex-col">
