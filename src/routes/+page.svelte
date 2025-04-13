@@ -1,7 +1,7 @@
 <script lang="ts">
   import { onMount } from "svelte"
-  import "./app.css"
   import { invoke } from "@tauri-apps/api/core"
+
   import AudioTrack from "../components/AudioTrack.svelte"
 
   onMount(() => {
@@ -15,21 +15,26 @@
   })
 </script>
 
-<main class="w-full h-full px-6 py-3 flex flex-col gap-y-4">
+<main class="flex h-lvh max-w-7xl flex-col gap-y-4 px-6 py-3">
   <section>
     <p class="text-sm font-medium">Video</p>
-    <img src="/asdf.png" alt="" class="mt-2" />
+    <img src="/asdf.png" alt="" class="mt-2 w-full" />
   </section>
 
-  <section class="flex flex-row items-start gap-x-6">
-    <div class="flex-1">
+  <section class="flex h-full flex-row items-start justify-between gap-x-4">
+    <div class="flex h-full flex-1 flex-col">
       <p class="text-sm font-medium">Audio Trakcs</p>
-      <div class="bg-neutral-800 rounded-lg p-6 mt-2 flex flex-col gap-y-4">
+      <div
+        class="mt-2 flex h-full flex-col gap-y-4 rounded-lg bg-neutral-800 px-5 py-3"
+      >
         <AudioTrack />
       </div>
     </div>
-    <aside class="min-w-48">
+    <aside class="flex h-full min-w-52 flex-col">
       <p class="text-sm font-medium">Controls</p>
+      <div
+        class="mt-2 flex h-full flex-col gap-y-4 rounded-lg bg-neutral-800 px-5 py-3"
+      ></div>
     </aside>
   </section>
 </main>

@@ -1,0 +1,7 @@
+@import "tailwindcss";
+
+@plugin '@tailwindcss/forms';
+
+@theme {
+  --font-pretendard: "Pretendard Variable", "sans-serif";
+}
