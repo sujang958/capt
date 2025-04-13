@@ -36,8 +36,24 @@
     <aside class="flex h-full min-w-52 flex-col">
       <p class="text-sm font-medium">Controls</p>
       <div
-        class="mt-2 flex h-full flex-col gap-y-4 rounded-lg bg-neutral-800 px-5 py-3"
-      ></div>
+        class="mt-2 flex h-full flex-col gap-y-2 rounded-lg bg-neutral-800 p-2"
+      >
+        <Button class="w-full py-1 text-sm">Enable Replaying</Button>
+        <Button class="w-full py-1 text-sm">Settings</Button>
+        <div class="mt-auto">
+          <label>
+            <p class="text-sm">Keybind for saving replays</p>
+            <input
+              type="text"
+              defaultValue="Ctrl + ;"
+              class="form-input mt-1.5 w-full rounded-lg bg-neutral-900 px-2 py-1 text-sm"
+            />
+          </label>
+          <Button class="mt-2 w-full py-1 text-sm">Save Replay for 15s</Button>
+        </div>
+      </div>
     </aside>
   </section>
 </main>
+
+<!-- TODO: add a feature that allows users to change duration of replays -->
