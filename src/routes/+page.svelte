@@ -1,23 +1,25 @@
 <script lang="ts">
   import { onMount } from "svelte"
-  import { invoke } from "@tauri-apps/api/core"
 
   import AudioTrack from "../components/AudioTrack.svelte"
   import Button from "../components/ui/Button.svelte"
   import { Plus } from "lucide-svelte"
+  import { devices } from "../lib/stores.svelte"
 
   onMount(() => {
-    const supportedConstraints =
-      navigator.mediaDevices.getSupportedConstraints()
-    const devices = navigator.mediaDevices.enumerateDevices() // Finally, i found the sauce 😭
-    console.log(devices.then(console.log))
-    const stream = navigator.mediaDevices.getUserMedia({
-      audio: { deviceId: "" },
-    })
+    //const supportedConstraints =
+    //  navigator.mediaDevices.getSupportedConstraints()
+    // const stream = navigator.mediaDevices.getUserMedia({
+    //   audio: { deviceId: "" },
+    // })
+
+    navigator.mediaDevices
+      .enumerateDevices()
+      .then((_devices) => ($devices = _devices))
   })
 </script>
 
-<main class="flex h-lvh max-w-7xl flex-col gap-y-4 px-6 py-3">
+<main class="flex h-lvh max-w-7xl flex-col gap-y-4 px-5 py-3">
   <section>
     <p class="text-sm font-medium">Video</p>
     <img src="/asdf.png" alt="" class="mt-2 w-full" />
@@ -33,6 +35,7 @@
         <Button class="py-1"><Plus class="size-4" /></Button>
       </div>
     </div>
+
     <aside class="flex h-full min-w-52 flex-col">
       <p class="text-sm font-medium">Controls</p>
       <div

@@ -1,6 +1,7 @@
 <script>
   import { Trash2, Volume2 } from "lucide-svelte"
   import Button from "./ui/Button.svelte"
+  import { devices } from "../lib/stores.svelte"
 </script>
 
 <div>
@@ -11,7 +12,9 @@
       id=""
       class="form-select w-full rounded-lg bg-neutral-700 px-2 py-1"
     >
-      <option value="asdfasf" class="">asdfasfdsa</option>
+      {#each $devices.filter(({ kind }) => kind === "audioinput") as device (`${device.groupId}:${device.deviceId}`)}
+        <option value="asdfasf" class="">{device.label}</option>
+      {/each}
     </select>
     <div class="flex flex-row items-center gap-x-3">
       <!-- svelte-ignore a11y_consider_explicit_label -->
