@@ -1,48 +1,26 @@
-use std::collections::VecDeque;
-use std::{thread, time::Duration};
-use scrap::{Capturer, Display};
-use image::{ImageBuffer, Rgba};
-use std::sync::{Arc, Mutex};
+use serde::{Deserialize, Serialize};
+use xcap::Monitor;
 
-const FPS: usize = 10;
-const SECONDS: usize = 30;
-const MAX_FRAMES: usize = FPS * SECONDS;
+#[derive(Serialize, Deserialize, Debug)]
+pub struct FeDisplay {
+    name: String,
+    width: u32,
+    height: u32,
+    id: u32,
+    fps: f32,
+}
 
-fn capture_video() -> Result<(), Box<dyn std::error::Error>> {
-    let display = Display::primary()?;
-    let mut capturer = Capturer::new(display)?;
-    let width = capturer.width();
-    let height = capturer.height();
+pub fn get_displays() -> Vec<FeDisplay> {
+    let monitors = Monitor::all().unwrap();
 
-    let buffer: Arc<Mutex<VecDeque<ImageBuffer<Rgba<u8>, Vec<u8>>>>> =
-        Arc::new(Mutex::new(VecDeque::with_capacity(MAX_FRAMES)));
-    let buffer_clone = buffer.clone();
-
-    std::thread::spawn(move || loop {
-        if let Ok(frame) = capturer.frame() {
-            let mut img = ImageBuffer::<Rgba<u8>, Vec<u8>>::new(width as u32, height as u32);
-            for (i, pixel) in frame.chunks(4).enumerate() {
-                let x = (i % width) as u32;
-                let y = (i / width) as u32;
-                img.put_pixel(x, y, Rgba([pixel[2], pixel[1], pixel[0], 255]));
-            }
-
-            let mut buf = buffer_clone.lock().unwrap();
-            if buf.len() >= MAX_FRAMES {
-                buf.pop_front();
-            }
-            buf.push_back(img);
-        }
-
-        thread::sleep(Duration::from_millis(1000 / FPS as u64));
-    });
-
-    // Simulate waiting
-    thread::sleep(Duration::from_secs(40));
-
-    // Snapshot
-    let frames = buffer.lock().unwrap().clone();
-    println!("Captured {} frames (last 30 sec)", frames.len());
-
-    Ok(())
+    monitors
+        .iter()
+        .map(|monitor| FeDisplay {
+            name: monitor.name().unwrap_or("Display".to_string()),
+            width: monitor.width().unwrap_or(0),
+            height: monitor.height().unwrap_or(0),
+            id: monitor.id().unwrap_or(0),
+            fps: monitor.frequency().unwrap_or(0f32),
+        })
+        .collect()
 }
